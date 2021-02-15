@@ -35,9 +35,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Set outputs
-          id: vars
-          run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      -
+        name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       -
         name: Build and push
         id: docker_build
