@@ -12,8 +12,8 @@ repositories {
         credentials {
             Properties properties = new Properties()
             properties.load(project.rootProject.file('local.properties').newDataInputStream())
-            username = System.getProperty('username')
-            password = System.getProperty('password')
+            username = System.getProperty("username")
+            password = System.getProperty("password")
         }
     }
 }
