@@ -10,8 +10,6 @@ repositories {
     maven {
         url = "https://maven.pkg.github.com/pedrofraca/tour-app-native"
         credentials {
-            Properties properties = new Properties()
-            properties.load(project.rootProject.file('local.properties').newDataInputStream())
             username = System.getProperty("username")
             password = System.getProperty("password")
         }
