@@ -35,6 +35,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set outputs
+          id: vars
+          run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       -
         name: Build and push
         id: docker_build
@@ -42,7 +45,7 @@ jobs:
         with:
           file: src/main/docker/Dockerfile.jvm
           push: true
-          tags: pedrofraca/tourapp:$GITHUB_SHA
+          tags: pedrofraca/tourapp:${{ steps.vars.outputs.sha_short }}
           build-args: |
             arg1=value1
             arg2=value2
