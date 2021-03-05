@@ -5,7 +5,7 @@ import java.util.*
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
-@Path("/tour")
+@Path("/api/tour")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 class JacksonResource {
