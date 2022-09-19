@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tour-api-deployment
+  labels:
+    app: tour-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tour-api
+  template:
+    metadata:
+      labels:
+        app: tour-api
+    spec:
+      containers:
+        - name: tour-api
+          image: pedrofraca/tourapp:82a52cd
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+#          env:
+#            - name: NEXTAUTH_URL
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: atool-client-configmap
+#                  key: NEXTAUTH_URL
+#            - name: SECRET
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: atool-client-configmap
+#                  key: SECRET
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tour-api-service
+spec:
+  selector:
+    app: tour-api
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: mongo-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-db
+  template:
+    metadata:
+      labels:
+        app: mongo-db
+    spec:
+      containers:
+        - name: mongo-db
+          image: mongo:4.4.16
+          ports:
+            - containerPort: 27017
+              protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  selector:
+    app: mongo-db
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
