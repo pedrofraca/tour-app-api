@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version "1.4.10"
-    id "org.jetbrains.kotlin.plugin.allopen" version "1.4.10"
+    id 'org.jetbrains.kotlin.jvm' version "1.6.10"
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.6.10"
     id 'io.quarkus'
 }
 
@@ -10,8 +10,8 @@ repositories {
     maven {
         url = "https://maven.pkg.github.com/pedrofraca/tour-app-native"
         credentials {
-            username = System.getProperty("username")
-            password = System.getProperty("password")
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
         }
     }
 }
@@ -19,12 +19,14 @@ repositories {
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-resteasy-jackson'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.+'
     implementation 'io.quarkus:quarkus-kotlin'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-resteasy'
-    implementation 'io.github.pedrofraca:domain-jvm:0.0.8-SNAPSHOT'
+    implementation 'io.github.pedrofraca:data-jvm:0.0.10-SNAPSHOT'
     testImplementation 'io.quarkus:quarkus-junit5'
+    implementation 'io.quarkus:quarkus-mongodb-panache'
 }
 
 group 'com.pedrofraca.tour'
