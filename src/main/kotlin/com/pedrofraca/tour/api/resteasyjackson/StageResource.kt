@@ -33,4 +33,11 @@ class StageResource {
     fun getClassificationForStage(@PathParam("stage") stage: Int) : StageClassificationModel {
         return classificationDataSource.get(stage)
     }
+
+    @POST
+    @Path("{id}/classification")
+    fun saveClassificationForStage(@PathParam("stage") stage: Int, classificationModel: StageClassificationModel) : StageClassificationModel {
+        classificationDataSource.save(classificationModel, stage)
+        return classificationModel
+    }
 }

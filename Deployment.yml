@@ -20,17 +20,6 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
-#          env:
-#            - name: NEXTAUTH_URL
-#              valueFrom:
-#                configMapKeyRef:
-#                  name: atool-client-configmap
-#                  key: NEXTAUTH_URL
-#            - name: SECRET
-#              valueFrom:
-#                configMapKeyRef:
-#                  name: atool-client-configmap
-#                  key: SECRET
 ---
 apiVersion: v1
 kind: Service

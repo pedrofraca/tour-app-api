@@ -1,32 +1,66 @@
 package com.pedrofraca.tour.api.data
 
 import com.pedrofraca.tour.api.data.mongo.Classification
+import com.pedrofraca.tour.api.data.mongo.ClassificationRepository
+import com.pedrofraca.tour.api.data.mongo.ClassificationType
 import io.github.pedrofraca.data.datasource.WriteDataSourceWithFilter
+import io.github.pedrofraca.domain.model.ClassificationModel
 import io.github.pedrofraca.domain.model.StageClassificationModel
 import javax.enterprise.context.ApplicationScoped
+import javax.inject.Inject
 
 @ApplicationScoped
 class ClassificationDataSource : WriteDataSourceWithFilter<StageClassificationModel, Int> {
+    @Inject
+    lateinit var classificationRepository: ClassificationRepository
 
     override fun getAll(): List<StageClassificationModel> {
         TODO("Not yet implemented")
     }
 
     override fun save(item: StageClassificationModel, stageId : Int) {
-        val classification = Classification()
-        item.general.forEach {
-            classification.pos = it.pos
-            classification.country = it.country
-            classification.rider = it.rider
-            classification.team = it.team
-            classification.stage = stageId
-            classification.type = "GENERAL"
-            classification.persist()
+
+        classificationRepository.delete("stage = ?1", stageId)
+        val general = item.general.map {
+            mapClassification(it,stageId, ClassificationType.GENERAL)
         }
+        val stage = item.stageClassification.map {
+            mapClassification(it,stageId, ClassificationType.STAGE)
+        }
+        val team = item.team.map {
+            mapClassification(it,stageId, ClassificationType.TEAM)
+        }
+        val mountain = item.mountain.map {
+            mapClassification(it,stageId, ClassificationType.MOUNTAIN)
+        }
+        val regularity = item.regularity.map {
+            mapClassification(it,stageId, ClassificationType.REGULARITY)
+        }
+
+        classificationRepository.persistOrUpdate(general + stage + team + mountain + regularity)
 
     }
 
-    override fun get(param: Int): StageClassificationModel {
-        TODO("Not yet implemented")
+    private fun mapClassification(it: ClassificationModel, stageId: Int, type : ClassificationType) : Classification {
+        val classification = Classification()
+        classification.pos = it.pos
+        classification.country = it.country
+        classification.rider = it.rider
+        classification.team = it.team
+        classification.stage = stageId
+        classification.time = it.time
+        classification.type = type.value
+        return classification
+    }
+
+    override fun get(stageId: Int): StageClassificationModel {
+
+        val result = classificationRepository.find("stage = ?1", stageId).list<Classification>()
+        val general = result.filter { it.type == ClassificationType.GENERAL.value }.map { ClassificationModel(it.time, it.country, it.team, it.pos, it.rider) }
+        val regularity = result.filter { it.type == ClassificationType.REGULARITY.value }.map { ClassificationModel(it.time, it.country, it.team, it.pos, it.rider) }
+        val mountain = result.filter { it.type == ClassificationType.MOUNTAIN.value }.map { ClassificationModel(it.time, it.country, it.team, it.pos, it.rider) }
+        val stage = result.filter { it.type == ClassificationType.STAGE.value }.map { ClassificationModel(it.time, it.country, it.team, it.pos, it.rider) }
+        val team = result.filter { it.type == ClassificationType.TEAM.value }.map { ClassificationModel(it.time, it.country, it.team, it.pos, it.rider) }
+        return StageClassificationModel(mountain, team, general, regularity, stage, stageId.toString())
     }
 }

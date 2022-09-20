@@ -3,6 +3,14 @@ package com.pedrofraca.tour.api.data.mongo
 import io.quarkus.mongodb.panache.MongoEntity
 import io.quarkus.mongodb.panache.PanacheMongoEntity
 
+enum class ClassificationType(val value : String) {
+    MOUNTAIN("mountain"),
+    STAGE("stage"),
+    REGULARITY("regularity"),
+    GENERAL("general"),
+    TEAM("team"),
+    NONE("")
+}
 @MongoEntity(collection = "classification")
 class Classification : PanacheMongoEntity() {
     var stage : Int = 0
