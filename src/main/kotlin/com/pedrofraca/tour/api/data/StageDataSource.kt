@@ -10,10 +10,10 @@ import javax.inject.Inject
 @ApplicationScoped
 class StageDataSource : WriteDataSource<StageModel> {
     @Inject
-    lateinit var personRepository: StageRepository
+    lateinit var stageRepository: StageRepository
 
     override fun getAll(): List<StageModel> {
-        return personRepository.findAll().list<Stage>().map {
+        return stageRepository.findAll().list<Stage>().map {
             StageModel(it.name,
                 it.stage,
                 it.winner,
@@ -30,6 +30,7 @@ class StageDataSource : WriteDataSource<StageModel> {
     }
 
     override fun save(item: StageModel) {
+        stageRepository.delete("stage = ?1", item.stage)
         val stage = Stage()
         stage.name = item.name
         stage.stage = item.stage
