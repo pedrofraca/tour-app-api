@@ -18,7 +18,7 @@ class ClassificationDataSource : WriteDataSourceWithFilter<StageClassificationMo
         TODO("Not yet implemented")
     }
 
-    override fun save(item: StageClassificationModel, stageId : Int) {
+    override fun save(item: StageClassificationModel, stageId : Int): Boolean {
 
         classificationRepository.delete("stage = ?1", stageId)
         val general = item.general.map {
@@ -39,6 +39,7 @@ class ClassificationDataSource : WriteDataSourceWithFilter<StageClassificationMo
 
         classificationRepository.persistOrUpdate(general + stage + team + mountain + regularity)
 
+        return true
     }
 
     private fun mapClassification(it: ClassificationModel, stageId: Int, type : ClassificationType) : Classification {

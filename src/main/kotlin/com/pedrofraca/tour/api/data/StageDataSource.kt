@@ -29,7 +29,7 @@ class StageDataSource : WriteDataSource<StageModel> {
         }
     }
 
-    override fun save(item: StageModel) {
+    override fun save(item: StageModel): Boolean {
         stageRepository.delete("stage = ?1", item.stage)
         val stage = Stage()
         stage.name = item.name
@@ -44,5 +44,6 @@ class StageDataSource : WriteDataSource<StageModel> {
         stage.averageSpeed = item.averageSpeed
         stage.startFinish = item.startFinish
         stage.persist()
+        return true
     }
 }

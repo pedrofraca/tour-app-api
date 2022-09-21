@@ -24,7 +24,7 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-resteasy'
-    implementation 'io.github.pedrofraca:data-jvm:0.0.10-SNAPSHOT'
+    implementation 'io.github.pedrofraca:data-jvm:0.0.12-SNAPSHOT'
     testImplementation 'io.quarkus:quarkus-junit5'
     implementation 'io.quarkus:quarkus-mongodb-panache'
 }
