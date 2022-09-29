@@ -10,8 +10,8 @@ repositories {
     maven {
         url = "https://maven.pkg.github.com/pedrofraca/tour-app-native"
         credentials {
-            username = "fracaped"
-            password = "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"
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
         }
     }
 }

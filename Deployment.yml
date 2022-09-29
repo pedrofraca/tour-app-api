@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tour-api
-          image: pedrofraca/tourapp:40109ab
+          image: pedrofraca/tourapp:$HOME/.kube
           ports:
             - containerPort: 8080
               protocol: TCP
