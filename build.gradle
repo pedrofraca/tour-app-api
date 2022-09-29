@@ -10,8 +10,8 @@ repositories {
     maven {
         url = "https://maven.pkg.github.com/pedrofraca/tour-app-native"
         credentials {
-            username = System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN")
+            username = "fracaped"
+            password = "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"
         }
     }
 }
@@ -24,7 +24,7 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-resteasy'
-    implementation 'io.github.pedrofraca:data-jvm:0.0.12-SNAPSHOT'
+    implementation 'io.github.pedrofraca:usecase-jvm:0.0.14-SNAPSHOT'
     testImplementation 'io.quarkus:quarkus-junit5'
     implementation 'io.quarkus:quarkus-mongodb-panache'
 }

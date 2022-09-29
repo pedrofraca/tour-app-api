@@ -41,6 +41,7 @@ class StageResource {
 
     @PATCH
     fun saveFavourite(stageAsFavorite : SetStageAsFavoriteParam) : Response {
+        //TODO consider a better way to build the use case
         val setStageAsFavoriteUseCase = SetStageAsFavoriteUseCaseImpl(FavouritesRepositoryImpl(stageAsFavoriteWriteDataSource,
         stageAsFavoriteReadDataSource))
 
