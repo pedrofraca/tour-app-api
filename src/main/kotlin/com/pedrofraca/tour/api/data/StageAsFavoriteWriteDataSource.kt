@@ -3,7 +3,8 @@ package com.pedrofraca.tour.api.data
 import com.pedrofraca.tour.api.data.mongo.StageFavourite
 import com.pedrofraca.tour.api.data.mongo.StageFavouriteRepository
 import io.github.pedrofraca.data.datasource.WriteDataSource
-import io.github.pedrofraca.domain.usecase.favourite.repository.SetStageAsFavoriteParam
+import io.github.pedrofraca.data.datasource.favourites.SetStageAsFavoriteParam
+
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 

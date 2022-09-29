@@ -4,7 +4,7 @@ import io.quarkus.mongodb.panache.MongoEntity
 import io.quarkus.mongodb.panache.PanacheMongoEntity
 
 @MongoEntity(collection = "stage")
-class Stage : PanacheMongoEntity() {
+class StageMongo : PanacheMongoEntity() {
     var name: String = ""
     var stage: Int = 0
     var winner: String? = null

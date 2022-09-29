@@ -1,15 +1,16 @@
 package com.pedrofraca.tour.api.resteasyjackson
 
+
 import com.pedrofraca.tour.api.data.ClassificationDataSource
 import com.pedrofraca.tour.api.data.StageAsFavoriteReadDataSource
 import com.pedrofraca.tour.api.data.StageAsFavoriteWriteDataSource
 import com.pedrofraca.tour.api.data.StageDataSource
 import io.github.pedrofraca.data.datasource.favourites.FavouritesRepositoryImpl
-import io.github.pedrofraca.domain.model.StageClassificationModel
-import io.github.pedrofraca.domain.model.StageModel
-import io.github.pedrofraca.domain.usecase.favourite.SetStageAsFavoriteUseCase
+import io.github.pedrofraca.data.datasource.favourites.SetStageAsFavoriteParam
+import io.github.pedrofraca.data.datasource.stage.StagesRepositoryImpl
+import io.github.pedrofraca.domain.model.Stage
+import io.github.pedrofraca.domain.model.StageClassification
 import io.github.pedrofraca.domain.usecase.favourite.SetStageAsFavoriteUseCaseImpl
-import io.github.pedrofraca.domain.usecase.favourite.repository.SetStageAsFavoriteParam
 import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -30,12 +31,12 @@ class StageResource {
     lateinit var stageAsFavoriteWriteDataSource : StageAsFavoriteWriteDataSource
 
     @GET
-    fun list(): List<StageModel> {
+    fun list(): List<Stage> {
         return stagesDataSource.getAll()
     }
 
     @POST
-    fun save(stage: StageModel) {
+    fun save(stage: Stage) {
         stagesDataSource.save(stage)
     }
 
@@ -43,10 +44,10 @@ class StageResource {
     fun saveFavourite(stageAsFavorite : SetStageAsFavoriteParam) : Response {
         //TODO consider a better way to build the use case
         val setStageAsFavoriteUseCase = SetStageAsFavoriteUseCaseImpl(FavouritesRepositoryImpl(stageAsFavoriteWriteDataSource,
-        stageAsFavoriteReadDataSource))
+        stageAsFavoriteReadDataSource), StagesRepositoryImpl(stagesDataSource, stagesDataSource))
 
         try {
-            setStageAsFavoriteUseCase(stageAsFavorite)
+            setStageAsFavoriteUseCase.invoke(stageAsFavorite)
         } catch(e: Exception) {
             return Response.serverError().entity(e.message).build()
         }
@@ -56,13 +57,13 @@ class StageResource {
 
     @GET
     @Path("{id}/classification")
-    fun getClassificationForStage(@PathParam("stage") stage: Int) : StageClassificationModel {
+    fun getClassificationForStage(@PathParam("stage") stage: Int) : StageClassification {
         return classificationDataSource.get(stage)
     }
 
     @POST
     @Path("{id}/classification")
-    fun saveClassificationForStage(@PathParam("stage") stage: Int, classificationModel: StageClassificationModel) : StageClassificationModel {
+    fun saveClassificationForStage(@PathParam("stage") stage: Int, classificationModel: StageClassification) : StageClassification {
         classificationDataSource.save(classificationModel, stage)
         return classificationModel
     }

@@ -12,7 +12,7 @@ enum class ClassificationType(val value : String) {
     NONE("")
 }
 @MongoEntity(collection = "classification")
-class Classification : PanacheMongoEntity() {
+class ClassificationMongo : PanacheMongoEntity() {
     var stage : Int = 0
     var type : String = ""
     var time: String? = null
